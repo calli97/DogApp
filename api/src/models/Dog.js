@@ -1,6 +1,9 @@
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
+require('dotenv').config();
+const INIT_ID=parseInt(process.env.INIT_ID)
+
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('dog', {
@@ -8,6 +11,10 @@ module.exports = (sequelize) => {
       type:DataTypes.INTEGER,
       primaryKey:true,
       autoIncrement:true,
+      get(){
+        const rawValue=this.getDataValue('id')
+        return rawValue+INIT_ID
+      }
     },
     name: {
       type: DataTypes.STRING,
@@ -27,10 +34,10 @@ module.exports = (sequelize) => {
     height:{
       type:DataTypes.STRING,
       set(value){
-        this.setDataValue('weight',JSON.stringify(value))
+        this.setDataValue('height',JSON.stringify(value))
       },
       get(){
-        const rawValue=this.getDataValue('weight')
+        const rawValue=this.getDataValue('height')
         return JSON.parse(rawValue)
       },
       allowNull:false

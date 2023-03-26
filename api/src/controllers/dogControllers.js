@@ -1,6 +1,9 @@
 const {Dog}=require('../db')
 const fs=require('fs')
 
+require('dotenv').config();
+const INIT_ID=parseInt(process.env.INIT_ID)
+
 const dogControllers={}
 
 dogControllers.getDogs=async(req,res,next)=>{
@@ -9,7 +12,7 @@ dogControllers.getDogs=async(req,res,next)=>{
         const data=await response.json()
         res.json(data)
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({error:error.message})
     }
 }
 
@@ -20,7 +23,15 @@ dogControllers.getDog=async(req,res,next)=>{
         const data=await response.json()
         res.json(data)
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({error:error.message})
+    }
+}
+
+dogControllers.createDog=async(req,res,next)=>{
+    try {
+        
+    } catch (error) {
+        res.status(500).json({error:error.message})
     }
 }
 
@@ -28,9 +39,18 @@ dogControllers.init=async (req,res,next)=>{
     try {
         const response=fs.readFileSync('data.json')
         const data=JSON.parse(response)
-        res.json(data)
+        
+        const test=await Dog.create({
+            name:data[0].name,
+            weight:data[0].weight,
+            height:data[0].height,
+            life_span:data[0].life_span,
+            image:data[0].image.id
+        })
+
+        res.json(test)
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({error:error.message})
     }
 }
 
