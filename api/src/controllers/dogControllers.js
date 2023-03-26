@@ -9,7 +9,6 @@ dogControllers.getDogs=async(req,res,next)=>{
         const data=await response.json()
         res.json(data)
     } catch (error) {
-        console.log(error.message)
         res.json(error.message)
     }
 }
@@ -21,7 +20,6 @@ dogControllers.getDog=async(req,res,next)=>{
         const data=await response.json()
         res.json(data)
     } catch (error) {
-        console.log(error.message)
         res.json(error.message)
     }
 }
@@ -32,7 +30,6 @@ dogControllers.init=async (req,res,next)=>{
         const data=JSON.parse(response)
         res.json(data)
     } catch (error) {
-        console.log(error.message)
         res.json(error.message)
     }
 }
