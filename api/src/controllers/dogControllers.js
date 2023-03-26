@@ -19,9 +19,15 @@ dogControllers.getDogs=async(req,res,next)=>{
 dogControllers.getDog=async(req,res,next)=>{
     const {id}=req.params
     try {
-        const response=await fetch(`https://api.thedogapi.com/v1/breeds/${id}`)
-        const data=await response.json()
-        res.json(data)
+        //API ID
+        if(id<=INIT_ID){
+            const response=await fetch(`https://api.thedogapi.com/v1/breeds/${id}`)
+            const data=await response.json()
+            res.json(data)
+        //DATABASE CASE
+        }else{
+            
+        }
     } catch (error) {
         res.status(500).json({error:error.message})
     }
