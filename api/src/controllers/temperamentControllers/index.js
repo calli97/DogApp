@@ -6,7 +6,12 @@ const temperamentControllers={}
 let initialized=false
 
 temperamentControllers.getTemperaments=async(req,res,next)=>{
-
+    try {
+        const response =await Temperament.findAll()
+        res.json(response)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
 }
 
 //gets the temperaments from de API and load to the database

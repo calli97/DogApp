@@ -8,10 +8,38 @@ const INIT_ID=parseInt(process.env.INIT_ID)
 const dogControllers={}
 
 dogControllers.getDogs=async(req,res,next)=>{
+    const {name}=req.query
     try {
-        const response=await fetch('https://api.thedogapi.com/v1/breeds')
-        const data=await response.json()
-        res.json(data)
+        if(name===undefined){
+            //no query
+            const response=await fetch('https://api.thedogapi.com/v1/breeds')
+            const data=await response.json()
+            const dogs=data.map(el=>{return{
+                id:el.id,
+                name:el.name,
+                weight:el.weight,
+                height:el.height,
+                life_span:el.life_span,
+                image:el.image,
+                temperament:el.temperament
+            }})
+            res.json(dogs)
+        }else{
+            //filter by name
+            const response=await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
+            const data=await response.json()
+            const dogs=data.map(el=>{return{
+                id:el.id,
+                name:el.name,
+                weight:el.weight,
+                height:el.height,
+                life_span:el.life_span,
+                image:el.image,
+                temperament:el.temperament
+            }})
+            res.json(dogs)
+        }
+        
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -19,13 +47,21 @@ dogControllers.getDogs=async(req,res,next)=>{
 
 dogControllers.getDog=async(req,res,next)=>{
     const id=parseInt(req.params.id)
-
     try {
         //API ID
         if(id<=INIT_ID){
             const response=await fetch(`https://api.thedogapi.com/v1/breeds/${id}`)
             const data=await response.json()
-            res.json(data)
+            const dog={
+                id:data.id,
+                name:data.name,
+                weight:data.weight,
+                height:data.height,
+                life_span:data.life_span,
+                image:data.image,
+                temperament:data.temperament
+            }
+            res.json(dog)
         //DATABASE CASE
         }else{
             const data=await Dog.findByPk(id-INIT_ID)
@@ -60,23 +96,5 @@ dogControllers.createDog=async(req,res,next)=>{
     }
 }
 
-dogControllers.init=async (req,res,next)=>{
-    try {
-        const response=fs.readFileSync('data.json')
-        const data=JSON.parse(response)
-        
-        const test=await Dog.create({
-            name:data[0].name,
-            weight:data[0].weight,
-            height:data[0].height,
-            life_span:data[0].life_span,
-            image:data[0].image.id
-        })
-
-        res.json(test)
-    } catch (error) {
-        res.status(500).json({error:error.message})
-    }
-}
 
 module.exports=dogControllers

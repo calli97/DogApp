@@ -10,10 +10,10 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 router.get('/dogs',dogControllers.getDogs)
 router.get('/dogs/:id',dogControllers.getDog)
-router.get('/init',dogControllers.init)
 router.post('/dogs',dogControllers.createDog)
 
 
+router.get('/temperaments',temperamentControllers.getTemperaments)
 router.get('/temp',temperamentControllers.initTemperaments)
 
 module.exports = router;
