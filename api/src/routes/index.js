@@ -11,6 +11,8 @@ const router = Router();
 router.get('/dogs',dogControllers.getDogs)
 router.get('/dogs/:id',dogControllers.getDog)
 router.get('/init',dogControllers.init)
+router.post('/dogs',dogControllers.createDog)
+
 
 router.get('/temp',temperamentControllers.initTemperaments)
 

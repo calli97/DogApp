@@ -54,5 +54,7 @@ module.exports = (sequelize) => {
         return `https://cdn2.thedogapi.com/images/${rawValue}.jpg`
       }
     }
+  },{
+    timestamps:false
   });
 };

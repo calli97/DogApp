@@ -1,5 +1,6 @@
-const {Dog}=require('../db')
+const {Dog}=require('../../db')
 const fs=require('fs')
+const {createWeight,createHeight,createLifeSpan}=require('./utils')
 
 require('dotenv').config();
 const INIT_ID=parseInt(process.env.INIT_ID)
@@ -17,7 +18,8 @@ dogControllers.getDogs=async(req,res,next)=>{
 }
 
 dogControllers.getDog=async(req,res,next)=>{
-    const {id}=req.params
+    const id=parseInt(req.params.id)
+
     try {
         //API ID
         if(id<=INIT_ID){
@@ -26,7 +28,12 @@ dogControllers.getDog=async(req,res,next)=>{
             res.json(data)
         //DATABASE CASE
         }else{
-            
+            const data=await Dog.findByPk(id-INIT_ID)
+            if(data===null){
+                throw new Error('Dog not found')
+            }else{
+                res.json(data)
+            }
         }
     } catch (error) {
         res.status(500).json({error:error.message})
@@ -34,8 +41,20 @@ dogControllers.getDog=async(req,res,next)=>{
 }
 
 dogControllers.createDog=async(req,res,next)=>{
+    const {image,name,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max}=req.body
     try {
-        
+        if(image===undefined||name===undefined||height_min===undefined||height_max===undefined||
+            weight_min===undefined||weight_max===undefined||life_span_min===undefined||life_span_max===undefined){
+            throw new Error('Missing Data')
+        }
+        const newDog=await Dog.create({
+            name,
+            height:createHeight(height_min,height_max),
+            weight:createWeight(weight_min,weight_max),
+            image,
+            life_span:createLifeSpan(life_span_min,)
+        })
+        res.json(newDog)  
     } catch (error) {
         res.status(500).json({error:error.message})
     }
