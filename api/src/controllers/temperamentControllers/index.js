@@ -16,7 +16,7 @@ temperamentControllers.getTemperaments=async(req,res,next)=>{
 
 //gets the temperaments from de API and load to the database
 //Validation in case the temperaments are already loaded?
-temperamentControllers.initTemperaments=async(req,res,next)=>{
+temperamentControllers.initTemperaments=async()=>{
     try {
         if(initialized===false){
             const response=await fetch('https://api.thedogapi.com/v1/breeds/')
@@ -28,12 +28,12 @@ temperamentControllers.initTemperaments=async(req,res,next)=>{
                 await Temperament.create({name:temperamentArray[i]})
             }
             initialized=true
-            res.json(temperamentArray)
+            console.log('Temperaments initialize');
         }else{
-            res.json({message:'Database already initialized'})
+            console.log('Database already initialized')
         }
     } catch (error) {
-        res.status(500).json({error:error.message})
+        console.error(error);
     }
 }
 

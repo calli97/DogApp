@@ -51,8 +51,31 @@ const createLifeSpan=(minLifeSpan,maxLifeSpan)=>{
     return `${minLifeSpan} - ${maxLifeSpan} years`
 }
 
+
+/**
+ * Parse the sequelize response to an object similar to the API response.
+ *
+ *
+ * @param {Object}   Obj          Sequelize response.
+ *
+ * @return {Object} A dog object.
+ */
+const dbQueryToObj=(response)=>{
+    const dog={
+        id:response.id+264,
+        weight:response.weight,
+        height:response.height,
+        image:response.image,
+        name:response.name,
+        life_span:response.life_span,
+        temperaments:response.temperaments.map(temp=>temp.name)
+    }
+    return dog
+}
+
 module.exports={
     createHeight,
     createWeight,
-    createLifeSpan
+    createLifeSpan,
+    dbQueryToObj
 }

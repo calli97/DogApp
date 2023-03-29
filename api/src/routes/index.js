@@ -6,6 +6,8 @@ const temperamentControllers=require('../controllers/temperamentControllers')
 
 const router = Router();
 
+
+temperamentControllers.initTemperaments()
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.get('/dogs',dogControllers.getDogs)
@@ -14,6 +16,6 @@ router.post('/dogs',dogControllers.createDog)
 
 
 router.get('/temperaments',temperamentControllers.getTemperaments)
-router.get('/temp',temperamentControllers.initTemperaments)
+
 
 module.exports = router;

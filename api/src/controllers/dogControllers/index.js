@@ -1,5 +1,5 @@
 const {Dog,Temperament}=require('../../db')
-const {createWeight,createHeight,createLifeSpan}=require('./utils')
+const {createWeight,createHeight,createLifeSpan,dbQueryToObj}=require('./utils')
 
 require('dotenv').config();
 const INIT_ID=parseInt(process.env.INIT_ID)
@@ -92,9 +92,18 @@ dogControllers.createDog=async(req,res,next)=>{
             image,
             life_span:createLifeSpan(life_span_min,life_span_max),
         })
-        console.log(temps)
-        await newDog.addTemperaments([1,2])
-        res.json(newDog)  
+        await newDog.addTemperaments(temps)
+        const obj=await Dog.findByPk(newDog.id,{
+            include:{
+                model:Temperament,
+                attributes:['name'],
+                through:{
+                    attributes:[]
+                }
+            }
+        })
+
+        res.json(dbQueryToObj(obj))  
     } catch (error) {
         console.log(error)
         res.status(500).json({error:error.message})
