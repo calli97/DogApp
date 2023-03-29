@@ -53,7 +53,7 @@ const createLifeSpan=(minLifeSpan,maxLifeSpan)=>{
 
 
 /**
- * Parse the sequelize response to an object similar to the API response.
+ * Normalize the sequelize response.
  *
  *
  * @param {Object}   Obj          Sequelize response.
@@ -68,7 +68,47 @@ const dbQueryToObj=(response)=>{
         image:response.image,
         name:response.name,
         life_span:response.life_span,
-        temperaments:response.temperaments.map(temp=>temp.name)
+        temperaments: temperamentsArrayToString(response.temperaments)
+    }
+    return dog
+}
+
+
+/**
+ * Generate a string from the DB response.
+ *
+ *
+ * @param {Object}   Obj          Sequelize response.
+ *
+ * @return {Object} A dog object.
+ */
+const temperamentsArrayToString=(array)=>{
+    let str=array[0].name
+
+    for(let i=1;i<array.length;i++){
+        str=str+', '+array[i].name
+    }
+    return str
+}
+
+
+/**
+ * Normalize the API response.
+ *
+ *
+ * @param {Object}   Obj          Api response.
+ *
+ * @return {Object} A dog object.
+ */
+const apiQueryToObj=(response)=>{
+    const dog={
+        id:response.id,
+        weight:response.weight,
+        height:response.height,
+        image:response.image.url,
+        name:response.name,
+        life_span:response.life_span,
+        temperaments:response.temperament
     }
     return dog
 }
@@ -77,5 +117,6 @@ module.exports={
     createHeight,
     createWeight,
     createLifeSpan,
-    dbQueryToObj
+    dbQueryToObj,
+    apiQueryToObj
 }

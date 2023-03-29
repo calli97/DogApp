@@ -44,11 +44,7 @@ module.exports = (sequelize) => {
     },
     image:{
       type:DataTypes.STRING,
-      allowNull:false,
-      get(){
-        const rawValue=this.getDataValue('image')
-        return `https://cdn2.thedogapi.com/images/${rawValue}.jpg`
-      }
+      allowNull:false
     }
   },{
     timestamps:false

@@ -1,5 +1,5 @@
 const {Dog,Temperament}=require('../../db')
-const {createWeight,createHeight,createLifeSpan,dbQueryToObj}=require('./utils')
+const {createWeight,createHeight,createLifeSpan,dbQueryToObj,apiQueryToObj}=require('./utils')
 
 require('dotenv').config();
 const INIT_ID=parseInt(process.env.INIT_ID)
@@ -13,29 +13,13 @@ dogControllers.getDogs=async(req,res,next)=>{
             //no query
             const response=await fetch('https://api.thedogapi.com/v1/breeds')
             const data=await response.json()
-            const dogs=data.map(el=>{return{
-                id:el.id,
-                name:el.name,
-                weight:el.weight,
-                height:el.height,
-                life_span:el.life_span,
-                image:el.image,
-                temperament:el.temperament
-            }})
+            const dogs=data.map(el=>apiQueryToObj(el))
             res.json(dogs)
         }else{
             //filter by name
             const response=await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
             const data=await response.json()
-            const dogs=data.map(el=>{return{
-                id:el.id,
-                name:el.name,
-                weight:el.weight,
-                height:el.height,
-                life_span:el.life_span,
-                image:el.image,
-                temperament:el.temperament
-            }})
+            const dogs=data.map(el=>apiQueryToObj(el))
             res.json(dogs)
         }
     } catch (error) {
@@ -50,15 +34,7 @@ dogControllers.getDog=async(req,res,next)=>{
         if(id<=INIT_ID){
             const response=await fetch(`https://api.thedogapi.com/v1/breeds/${id}`)
             const data=await response.json()
-            const dog={
-                id:data.id,
-                name:data.name,
-                weight:data.weight,
-                height:data.height,
-                life_span:data.life_span,
-                image:data.image,
-                temperament:data.temperament
-            }
+            const dog=apiQueryToObj(data)
             res.json(dog)
         //DATABASE CASE
         }else{
