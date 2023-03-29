@@ -1,5 +1,4 @@
-const {Dog}=require('../../db')
-const fs=require('fs')
+const {Dog,Temperament}=require('../../db')
 const {createWeight,createHeight,createLifeSpan}=require('./utils')
 
 require('dotenv').config();
@@ -39,7 +38,6 @@ dogControllers.getDogs=async(req,res,next)=>{
             }})
             res.json(dogs)
         }
-        
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -77,21 +75,28 @@ dogControllers.getDog=async(req,res,next)=>{
 }
 
 dogControllers.createDog=async(req,res,next)=>{
-    const {image,name,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max}=req.body
+    const {image,name,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temperaments}=req.body
     try {
         if(image===undefined||name===undefined||height_min===undefined||height_max===undefined||
             weight_min===undefined||weight_max===undefined||life_span_min===undefined||life_span_max===undefined){
             throw new Error('Missing Data')
         }
+        let temps=temperaments.replace('[','')
+        temps=temps.replace(']','')
+        temps=temps.split(',')
+        temps=temps.map(el=>parseInt(el))
         const newDog=await Dog.create({
             name,
             height:createHeight(height_min,height_max),
             weight:createWeight(weight_min,weight_max),
             image,
-            life_span:createLifeSpan(life_span_min,)
+            life_span:createLifeSpan(life_span_min,life_span_max),
         })
+        console.log(temps)
+        await newDog.addTemperaments([1,2])
         res.json(newDog)  
     } catch (error) {
+        console.log(error)
         res.status(500).json({error:error.message})
     }
 }

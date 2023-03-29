@@ -10,11 +10,7 @@ module.exports = (sequelize) => {
     id:{
       type:DataTypes.INTEGER,
       primaryKey:true,
-      autoIncrement:true,
-      get(){
-        const rawValue=this.getDataValue('id')
-        return rawValue+INIT_ID
-      }
+      autoIncrement:true
     },
     name: {
       type: DataTypes.STRING,
