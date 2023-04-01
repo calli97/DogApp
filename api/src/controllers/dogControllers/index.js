@@ -1,5 +1,6 @@
 const {Dog,Temperament}=require('../../db')
 const {createWeight,createHeight,createLifeSpan,dbQueryToObj,apiQueryToObj}=require('./utils')
+const dogsHandler=require('./handler')
 
 require('dotenv').config();
 const INIT_ID=parseInt(process.env.INIT_ID)
@@ -11,9 +12,9 @@ dogControllers.getDogs=async(req,res,next)=>{
     try {
         if(name===undefined){
             //no query
-            const response=await fetch('https://api.thedogapi.com/v1/breeds')
-            const data=await response.json()
-            const dogs=data.map(el=>apiQueryToObj(el))
+            const dogsApi=await dogsHandler.getDogsFromApi()
+            const dogsDb=await dogsHandler.getDogsFromDB()
+            const dogs=[...dogsApi,...dogsDb]
             res.json(dogs)
         }else{
             //filter by name
@@ -32,13 +33,11 @@ dogControllers.getDog=async(req,res,next)=>{
     try {
         //API ID
         if(id<=INIT_ID){
-            const response=await fetch(`https://api.thedogapi.com/v1/breeds/${id}`)
-            const data=await response.json()
-            const dog=apiQueryToObj(data)
+            const dog=await dogsHandler.searchDogInApi(id)
             res.json(dog)
         //DATABASE CASE
         }else{
-            const data=await Dog.findByPk(id-INIT_ID)
+            const data=await dogsHandler.searhDogInDB(id)
             if(data===null){
                 throw new Error('Dog not found')
             }else{
@@ -61,25 +60,9 @@ dogControllers.createDog=async(req,res,next)=>{
         temps=temps.replace(']','')
         temps=temps.split(',')
         temps=temps.map(el=>parseInt(el))
-        const newDog=await Dog.create({
-            name,
-            height:createHeight(height_min,height_max),
-            weight:createWeight(weight_min,weight_max),
-            image,
-            life_span:createLifeSpan(life_span_min,life_span_max),
-        })
-        await newDog.addTemperaments(temps)
-        const obj=await Dog.findByPk(newDog.id,{
-            include:{
-                model:Temperament,
-                attributes:['name'],
-                through:{
-                    attributes:[]
-                }
-            }
-        })
+        const newDog=await dogsHandler.createDog(name,image,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temps)
 
-        res.json(dbQueryToObj(obj))  
+        res.json(newDog)  
     } catch (error) {
         console.log(error)
         res.status(500).json({error:error.message})

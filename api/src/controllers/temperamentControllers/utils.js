@@ -15,10 +15,10 @@ const getTemperamentsFromString=(string)=>{
  * Load the temperaments of a certain breed in a set
  *
  * 
- * @param {Array}    array            Array of temperaments.
- * @param {Set}   string              Set of temperaments.
+ * @param {Array}    temperaments            Array of temperaments.
+ * @param {Set}   set              Set of temperaments.
  *
- * @return {Set} Set of temperaments.
+ * @return {Set} Set of temperaments without duplicates.
  */
 const addTemperamentsToSet=(temperaments,set)=>{
     for(let i=0;i<temperaments.length;i++){
@@ -29,11 +29,11 @@ const addTemperamentsToSet=(temperaments,set)=>{
 
 
 /**
- * Get all the temperaments from an array of Breeds
+ * Get all the temperaments from an array of Breeds 
  *
- * @param {Array}    array            Array of Breeds
+ * @param {Array}    dataArray            Array of Breeds
  *
- * @return {Array} Array of temperaments.
+ * @return {Set} Set of temperaments without duplicates.
  */
 const getTemperamentsFromDogs=(dataArray)=>{
     let temperaments=new Set()
