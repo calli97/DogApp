@@ -1,0 +1,69 @@
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: #545454;
+    border: 2px solid #f6f6f6;
+    font-family: Georgia;
+    font-weight: 400;
+    font-size: 15px;
+    border-radius: 20px;
+    
+    padding: 0px;
+    margin: 0;
+    overflow: hidden;
+    width: 115px;
+}
+
+
+.middleButton{
+    text-decoration: none;
+    transition: all .5s ease;
+    border: 0px solid #f6f6f6;
+    border-left: 1px solid #f6f6f6;
+    border-right: 1px solid #f6f6f6;
+    background-color: #f2cdb3;
+    color: #545454;
+    font-family: Georgia;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 7px;
+}
+.middleButton:hover {
+    color:#545454;
+    background-color: #f6f6f6;
+}
+
+.firstButton{
+    text-decoration: none;
+    transition: all .5s ease;
+    border: 0px solid #f6f6f6;
+    background-color: #f2cdb3;
+    color: #545454;
+    font-family: Georgia;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 7px;
+    padding-left: 10px;
+}
+.firstButton:hover {
+    color:#545454;
+    background-color: #f6f6f6;
+}
+
+.lastButton{
+    text-decoration: none;
+    transition: all .5s ease;
+    border: 0px solid #f6f6f6;
+    background-color: #f2cdb3;
+    color: #545454;
+    font-family: Georgia;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 7px;
+    padding-right: 12px;
+}
+.lastButton:hover {
+    color:#545454;
+    background-color: #f6f6f6;
+}

@@ -1,0 +1,13 @@
+.container{
+    background-color: #f2cdb3;
+    margin-left: 20px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.order{
+    display: flex;
+    flex-direction: row;
+}

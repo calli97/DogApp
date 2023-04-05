@@ -8,11 +8,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: fixed;
-    width: 98.7%;
+    position: sticky;
+    /* width: 98.7%; */
     top: 0px;
     z-index: 1000;
     padding-right: 40px;
+    border: 2px;
+    border-color: black;
+    border-style: double;
 }
 
 .linkContainer{
