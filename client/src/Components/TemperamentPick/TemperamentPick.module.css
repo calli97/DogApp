@@ -1,0 +1,33 @@
+.container{
+    background-color: #734D32;
+    padding: 5px;
+    border-radius: 13px;
+}
+
+.span{
+    font-family:Arial, Helvetica, sans-serif;
+    color: red;
+    font-weight: 600;
+    position: relative;
+    top: 1px;
+    left: 5px;
+}
+
+.button{
+    text-decoration: none;
+    transition: all .5s ease;
+    color: #545454;
+    border: 2px solid #734D32;
+    font-family: Georgia;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 8px;
+    padding-right: 14px;
+    padding-left: 12px;
+    outline: none;
+    border-radius: 20px;
+}
+.button:hover {
+    color:#f2cdb3;
+    background-color: #734D32;
+}

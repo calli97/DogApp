@@ -1,10 +1,9 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import {matchFilters} from './utils'
+import { createSlice,createAsyncThunk, current } from "@reduxjs/toolkit";
+import { getPagination, matchFilters} from './utils'
 
 export const getDogs=createAsyncThunk('cards/getCards',async()=>{
     const response=await fetch('http://localhost:3001/dogs')
     const data=await response.json()
-    console.log(data)
     return data
 })
 //name,minHeight,maxHeight,minWeight,maxWeight,minLifeSpan,maxLifeSpan,image
@@ -49,7 +48,7 @@ let initialState={
     displayed:[],
     filteredBy:{
         searchedTemperaments:[],
-        origin:'both'
+        origin:'All'
     },
     orderBy:{
         parameter:'id',
@@ -58,7 +57,8 @@ let initialState={
     pagination:{
         index:0,
         total:0
-    }
+    },
+    pages:{}
 }
 
 export const cardSlice=createSlice({
@@ -66,16 +66,31 @@ export const cardSlice=createSlice({
     initialState,
     reducers:{
         filter:(state,action)=>{
-            let filtered=state.dogs.filter((item)=>matchFilters(item,action.payload.temperaments,action.payload.origin))
+            let filtered=state.dogs.filter(item=>matchFilters(item,action.payload.temperaments,action.payload.origin))
             state.filtered=filtered
             state.filteredBy.searchedTemperaments=action.payload.temperaments
             
+            //Set ordered
+            state.ordered=filtered
+            //Set pagination
+            const {displayed,total,index}=getPagination(state.ordered,1)
+            state.pagination.index=index
+            state.displayed=displayed 
+            state.pagination.total=total
+            console.log(current(state))
         },
         order:(state,action)=>{
 
         },
         cleanFilters:(state,action)=>{
             
+        },
+        changePage:(state,action)=>{
+            const {displayed,total,index}=getPagination(state.ordered,action.payload)
+            state.pagination.index=index
+            state.pagination.total=total
+            state.displayed=displayed  
+            //state.pages=getPages(index,total)
         }
     },
     extraReducers:(builder)=>{
@@ -85,12 +100,12 @@ export const cardSlice=createSlice({
             state.ordered=action.payload
             const aux=Math.ceil(action.payload.length/8)
             state.pagination.total=aux
-            state.pagination.index=0
+            state.pagination.index=1
             state.displayed=action.payload.slice(0,8)
         })
     }
 })
 
-export const{addCard}=cardSlice.actions
+export const{addCard,changePage,filter}=cardSlice.actions
 
 export default cardSlice.reducer

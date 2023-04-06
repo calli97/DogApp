@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .label{
@@ -10,4 +10,10 @@
 .input{
     width: 140px;
     height: 30px;
+}
+
+.temperamentContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

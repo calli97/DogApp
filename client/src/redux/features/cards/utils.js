@@ -1,14 +1,20 @@
+import { current } from "@reduxjs/toolkit";
+
 const matchOrigin={
-    'both':()=>true,
-    'database':(dog)=>{if(dog.id>264)return true;return false},
-    'api':(dog)=>{if(dog.id<=264)return true;return false}
+    'All':()=>true,
+    'DB':(dog)=>{if(dog.id>264)return true;return false},
+    'API':(dog)=>{if(dog.id<=264)return true;return false}
 }
 
 export const matchFilters=(dog,filterTemperaments,origin)=>{
-    const dogTemperamentsArray=dog.temperament.split(', ')
-    const filterTemperamentsArray=filterTemperaments.split(', ')
-
-    if(matchOrigin[origin](dog)){
+    if(current(dog).temperaments===undefined){
+        return filterTemperaments.length?false:(matchOrigin[origin])(dog)
+    }
+    let aux=current(dog).temperaments
+    const dogTemperamentsArray=aux.split(', ')
+    const filterTemperamentsArray=filterTemperaments
+    
+    if((matchOrigin[origin])(dog)){
         for(let i=0;i<filterTemperamentsArray.length;i++){
             if(!dogTemperamentsArray.includes(filterTemperamentsArray[i])){
                 return false
@@ -41,3 +47,54 @@ export const orderCards=(cardsArray,orderParameter,asc)=>{
         return aux.reverse()
     }
 }
+
+
+export const getPagination=(allData,action)=>{
+    let aux=[...allData]
+    let displayed=[]
+    let index
+    let total=Math.ceil(aux.length/8)
+    if(action==='<<'){
+        index=1
+        displayed=aux.slice(0,8)
+    }else if(action==='>>'){
+        index=total
+        displayed=aux.slice(8*(total-1),8*total)
+    }else{
+        index=action
+        displayed=aux.slice(8*(action-1),8*action)
+    }
+    return {displayed,index,total}
+}
+
+// export function getPages(index,total) {
+//     let pages=[]
+//     if(total===0){
+//         return {
+//             prev:false,
+//             pages,
+//             index:null,
+//             last:false
+//         }
+//     }else if(total<=5){
+//         for(let i;i<total;i++){
+//             pages.push(i)
+//         }
+//         return {
+//             prev:false,
+//             index,
+//             pages,
+//             last:false
+//         }
+//     }else{
+//         for(let i=(index-2)>=1?index-2:1;i<=index+2&&i<=total;i++){
+//             pages.push(i)
+//         }
+//         return{
+//             prev:pages[0]===1?false:true,
+//             index,
+//             pages,
+//             last:pages[pages.length-1]===total?false:true
+//         }
+//     }
+// }

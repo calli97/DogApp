@@ -22,7 +22,7 @@ function App() {
     initialize.current=true
     
   }, [])
-  console.log(state)
+  //console.log(state)
   
   
   return (

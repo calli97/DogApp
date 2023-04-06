@@ -1,0 +1,22 @@
+.button{
+    text-decoration: none;
+    transition: all .5s ease;
+    color: #545454;
+    border: 2px solid #f2cdb3;
+    font-family: Georgia;
+    font-weight: 400;
+    line-height: 1;
+    font-size: 15px;
+    background-color: white;
+    padding: 8px;
+    outline: none;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    margin-bottom: 20px;
+}
+.button:hover {
+    color:#545454;
+    background-color: #f2cdb3;
+}
