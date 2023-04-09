@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk, current } from "@reduxjs/toolkit";
-import { getPagination, matchFilters} from './utils'
+import { getPagination, matchFilters, orderCards} from './utils'
 
 export const getDogs=createAsyncThunk('cards/getCards',async()=>{
     const response=await fetch('http://localhost:3001/dogs')
@@ -65,11 +65,11 @@ export const cardSlice=createSlice({
     name:'cards',
     initialState,
     reducers:{
-        filter:(state,action)=>{
-            let filtered=state.dogs.filter(item=>matchFilters(item,action.payload.temperaments,action.payload.origin))
+        deleteTemperamentFilter:(state,action)=>{
+            //Aplied filters
+            state.filteredBy.searchedTemperaments=state.filteredBy.searchedTemperaments.filter(el=>el!==action.payload)
+            let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,state.filteredBy.origin))
             state.filtered=filtered
-            state.filteredBy.searchedTemperaments=action.payload.temperaments
-            
             //Set ordered
             state.ordered=filtered
             //Set pagination
@@ -77,10 +77,40 @@ export const cardSlice=createSlice({
             state.pagination.index=index
             state.displayed=displayed 
             state.pagination.total=total
-            console.log(current(state))
+        },
+        addTemperamentFilter:(state,action)=>{
+            //Aplied filters
+            state.filteredBy.searchedTemperaments.push(action.payload)
+            let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,state.filteredBy.origin))
+            state.filtered=filtered
+            //Set ordered
+            state.ordered=filtered
+            //Set pagination
+            const {displayed,total,index}=getPagination(state.ordered,1)
+            state.pagination.index=index
+            state.displayed=displayed 
+            state.pagination.total=total
+        },
+        filterOrigin:(state,action)=>{
+            //Aplied filters
+            let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,action.payload))
+            state.filtered=filtered
+            //Set ordered
+            state.ordered=filtered
+            //Set pagination
+            const {displayed,total,index}=getPagination(state.ordered,1)
+            state.pagination.index=index
+            state.displayed=displayed 
+            state.pagination.total=total
         },
         order:(state,action)=>{
-
+            
+            const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
+            console.log(aux)
+        },
+        orderSort:(state,action)=>{
+            const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
+            console.log(aux)
         },
         cleanFilters:(state,action)=>{
             
@@ -106,6 +136,6 @@ export const cardSlice=createSlice({
     }
 })
 
-export const{addCard,changePage,filter}=cardSlice.actions
+export const{addCard,changePage,addTemperamentFilter,filterOrigin,deleteTemperamentFilter,orderSort}=cardSlice.actions
 
 export default cardSlice.reducer

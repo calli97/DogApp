@@ -1,13 +1,12 @@
 import React from 'react'
 import styles from './OriginFilter.module.css'
-import { filter } from '../../redux/features/cards/cardsSlice'
+import { filterOrigin } from '../../redux/features/cards/cardsSlice'
 import { useDispatch } from 'react-redux'
 
 function OriginFilter() {
   const dispatch=useDispatch()
   const clickHandle=(e)=>{
-    console.log(e.target.innerHTML)
-    dispatch(filter({temperaments:[],origin:e.target.innerHTML}))
+    dispatch(filterOrigin(e.target.innerHTML))
   }
   return (
     <div className={styles.buttonContainer}>

@@ -31,13 +31,12 @@ const getMinWeigth=(dog)=>{
     return parseInt(aux[0])
 }
 
+
 const sortOrder={
     'id':(dog1,dog2)=>dog1.id-dog2.id,
     'name':(dog1,dog2)=>dog1.firstname.localeCompare(dog2.firstname),
     'weight':(dog1,dog2)=>getMinWeigth(dog1)-getMinWeigth(dog2),
 }
-
-
 
 export const orderCards=(cardsArray,orderParameter,asc)=>{
     let aux=cardsArray.sort(sortOrder[orderParameter])
@@ -67,34 +66,3 @@ export const getPagination=(allData,action)=>{
     return {displayed,index,total}
 }
 
-// export function getPages(index,total) {
-//     let pages=[]
-//     if(total===0){
-//         return {
-//             prev:false,
-//             pages,
-//             index:null,
-//             last:false
-//         }
-//     }else if(total<=5){
-//         for(let i;i<total;i++){
-//             pages.push(i)
-//         }
-//         return {
-//             prev:false,
-//             index,
-//             pages,
-//             last:false
-//         }
-//     }else{
-//         for(let i=(index-2)>=1?index-2:1;i<=index+2&&i<=total;i++){
-//             pages.push(i)
-//         }
-//         return{
-//             prev:pages[0]===1?false:true,
-//             index,
-//             pages,
-//             last:pages[pages.length-1]===total?false:true
-//         }
-//     }
-// }
