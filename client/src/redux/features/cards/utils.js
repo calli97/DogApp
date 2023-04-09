@@ -34,7 +34,7 @@ const getMinWeigth=(dog)=>{
 
 const sortOrder={
     'id':(dog1,dog2)=>dog1.id-dog2.id,
-    'name':(dog1,dog2)=>dog1.firstname.localeCompare(dog2.firstname),
+    'name':(dog1,dog2)=>dog1.name.localeCompare(dog2.name),
     'weight':(dog1,dog2)=>getMinWeigth(dog1)-getMinWeigth(dog2),
 }
 

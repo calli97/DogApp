@@ -1,13 +1,21 @@
-import React from 'react'
+import { useDispatch } from 'react-redux'
 import styles from './SortOrder.module.css'
+import { order } from '../../redux/features/cards/cardsSlice'
 
 function SortOrder() {
+  const dispatch=useDispatch()
+  const handleOption=(e)=>{
+    console.log(e.target.value)
+    dispatch(order(e.target.value))
+  }
+
   return (
     <div className={styles.container}>
-      <select name="select">
-        <option value="value1">Id</option>
-        <option value="value2">Name</option>
-        <option value="value3">Weight</option>
+      <select name="select" onChange={handleOption}>
+        {/* <option value="null" disabled selected='true'>Select the order</option> */}
+        <option value="id" >Id</option>
+        <option value="name">Name</option>
+        <option value="weight">Weight</option>
       </select>
     </div>
   )

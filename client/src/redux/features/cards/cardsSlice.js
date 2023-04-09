@@ -104,13 +104,22 @@ export const cardSlice=createSlice({
             state.pagination.total=total
         },
         order:(state,action)=>{
-            
+            state.orderBy.parameter=action.payload
             const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
-            console.log(aux)
+            state.ordered=aux
+            const {displayed,total,index}=getPagination(state.ordered,1)
+            state.pagination.index=index
+            state.displayed=displayed 
+            state.pagination.total=total
         },
         orderSort:(state,action)=>{
+            state.orderBy.asc=action.payload
             const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
-            console.log(aux)
+            state.ordered=aux
+            const {displayed,total,index}=getPagination(state.ordered,1)
+            state.pagination.index=index
+            state.displayed=displayed 
+            state.pagination.total=total
         },
         cleanFilters:(state,action)=>{
             
@@ -136,6 +145,6 @@ export const cardSlice=createSlice({
     }
 })
 
-export const{addCard,changePage,addTemperamentFilter,filterOrigin,deleteTemperamentFilter,orderSort}=cardSlice.actions
+export const{addCard,changePage,addTemperamentFilter,filterOrigin,deleteTemperamentFilter,orderSort,order}=cardSlice.actions
 
 export default cardSlice.reducer
