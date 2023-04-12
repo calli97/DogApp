@@ -1,8 +1,8 @@
 .container{
-    display: flex;
-    flex-direction: column;
-}
-
+    position: relative;
+    top: 0px;
+    left: 0px;
+}  
 
 .input { 
     font-size:14px; 
@@ -16,15 +16,3 @@
 .input:focus { 
     outline:none; 
 } 
-
-.temperamentContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.searchContainer{
-    position: relative;
-    top: 0px;
-    left: 0px;
-}

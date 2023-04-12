@@ -11,7 +11,7 @@ function TemperamentPick({temperament}) {
   }
   return (
     <button className={styles.button} onClick={clickHandler}>
-        {temperament} <span className={styles.span}>X</span>
+        {temperament.name} <span className={styles.span}>X</span>
     </button>
   )
 }

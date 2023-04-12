@@ -16,7 +16,7 @@ export const matchFilters=(dog,filterTemperaments,origin)=>{
     
     if((matchOrigin[origin])(dog)){
         for(let i=0;i<filterTemperamentsArray.length;i++){
-            if(!dogTemperamentsArray.includes(filterTemperamentsArray[i])){
+            if(!dogTemperamentsArray.includes(filterTemperamentsArray[i].name)){
                 return false
             }
         }

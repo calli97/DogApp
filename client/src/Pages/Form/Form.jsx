@@ -1,28 +1,94 @@
-import React from 'react'
+import React, { useState ,useEffect} from 'react'
+import styles from './Form.module.css'
+import TemperamentsNewDog from '../../Components/TemperamentsNewDog/TemperamentsNewDog'
 
 function Form() {
+  const [form, setForm] = useState({
+    name:'',
+    height_min:'',
+    height_max:'',
+    weight_min:'',
+    weight_max:'',
+    life_span_min:'',
+    life_span_max:'',
+    image:{},
+    temperaments:[]
+  })
+
+  useEffect(() => {
+    console.log(form)
+  }, [form])
+  
+  
+  const submitHandler=(e)=>{
+    e.preventDefault()
+    // const data=new FormData()
+    // const img=document.getElementById('image')
+    // console.log(img.files)
+    fetch('http://localhost:3001/dogs',{
+      method:'POST',
+      headers:{
+        "Content-Type": 'application/json',
+      },
+      mode: "cors",
+      body: JSON.stringify(form)
+    })
+  }
+  const changeHandler=(e)=>{
+    setForm({
+      ...form,
+      [e.target.name]:e.target.value,
+    })
+  }
+  // const changeImageHandler=(e)=>{
+  //   // setForm({
+  //   //   ...form,
+  //   //   image:e.target.files[0]
+  //   // }) 
+  // }
+
   return (
-    <div>
-      <form action="">
-        <label htmlFor="name"></label>
-        <input type="text" name='name' id='name'/>
-        <label htmlFor="minHeight"></label>
-        <input type="text" name='minHeight'/>
-        <label htmlFor="maxHeight"></label>
-        <input type="text" name='maxHeight'/>
-        <label htmlFor="minWeight"></label>
-        <input type="text" name='minWeight'/>
-        <label htmlFor="maxWeight"></label>
-        <input type="text" name='maxWeight'/>
-        <label htmlFor="minLifeSpan"></label>
-        <input type="text" name='minLifeSpan'/>
-        <label htmlFor="maxLifeSpan"></label>
-        <input type="text" name='maxLifeSpan'/>
-        <label htmlFor="image"></label>
-        <input type="text" name='image'/>
+    <div className={styles.page}>
+      <form onSubmit={submitHandler} className={styles.container}>
         <div>
-          Aca lo de imagenes
+          <h4>You don't find what you need?</h4>
+          <h3>Upload your new Breed!!!</h3>
         </div>
+        
+        <div>
+          <label htmlFor="name">Name: </label>
+          <input type="text" name='name' id='name' onChange={changeHandler} className={styles.input}/>
+        </div>
+        <div>
+          <label htmlFor="minHeight">Min Height: </label>
+          <input type="text" name='height_min' id='minHeight' onChange={changeHandler} className={styles.input}/>
+          <label htmlFor="maxHeight">Max Height: </label>
+          <input type="text" name='height_max' id='maxHeight' onChange={changeHandler} className={styles.input}/>
+        </div>
+        <div>
+          <label htmlFor="minWeight">Min Weight: </label>
+          <input type="text" name='weight_min' id='minWeight' onChange={changeHandler} className={styles.input}/>
+          <label htmlFor="maxWeight">Max Weight: </label>
+          <input type="text" name='weight_max' id='maxWeight' onChange={changeHandler} className={styles.input}/>
+        </div>
+        <div>
+          <label htmlFor="minLifeSpan">Min Life span: </label>
+          <input type="text" name='life_span_min' id='minLifeSpan' onChange={changeHandler} className={styles.input}/>
+          <label htmlFor="maxLifeSpan">Max Life span: </label>
+          <input type="text" name='life_span_max' id='maxLifeSpan' onChange={changeHandler} className={styles.input}/>
+        </div>
+        <div>
+          <label htmlFor="image"> Image Link: </label>
+          <input type="text" name='image' id='image' onChange={changeHandler} className={styles.input}/>
+        </div>
+        {/* <div>
+          Aca lo de imagenes
+          <input type="file" id='image' name='image' onChange={changeImageHandler}/>
+        </div> */}
+        <div className={styles.temperamentContainer}>
+          <TemperamentsNewDog form={form} formSetter={setForm}/>
+        </div>
+        <input type="submit" value='Submit' className={styles.button}/>
       </form>
     </div>
   )

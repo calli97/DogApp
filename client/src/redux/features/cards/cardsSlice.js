@@ -11,8 +11,7 @@ export const postDog=createAsyncThunk('cards/postCard',async(newDog)=>{
     const response=await fetch('http://localhost:3001/dogs',{
         method:'POST',
         headers: {
-            //"Content-Type": "application/json",
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/json"
         },
         body:JSON.stringify(newDog)
     })
@@ -67,11 +66,12 @@ export const cardSlice=createSlice({
     reducers:{
         deleteTemperamentFilter:(state,action)=>{
             //Aplied filters
-            state.filteredBy.searchedTemperaments=state.filteredBy.searchedTemperaments.filter(el=>el!==action.payload)
+            state.filteredBy.searchedTemperaments=state.filteredBy.searchedTemperaments.filter(el=>el.name!==action.payload.name)
             let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,state.filteredBy.origin))
             state.filtered=filtered
             //Set ordered
-            state.ordered=filtered
+            const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
+            state.ordered=aux
             //Set pagination
             const {displayed,total,index}=getPagination(state.ordered,1)
             state.pagination.index=index
@@ -83,20 +83,24 @@ export const cardSlice=createSlice({
             state.filteredBy.searchedTemperaments.push(action.payload)
             let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,state.filteredBy.origin))
             state.filtered=filtered
+            
             //Set ordered
-            state.ordered=filtered
+            const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
+            state.ordered=aux
             //Set pagination
             const {displayed,total,index}=getPagination(state.ordered,1)
             state.pagination.index=index
             state.displayed=displayed 
             state.pagination.total=total
+            console.log(current(state))
         },
         filterOrigin:(state,action)=>{
             //Aplied filters
             let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,action.payload))
             state.filtered=filtered
             //Set ordered
-            state.ordered=filtered
+            const aux=orderCards(state.filtered,state.orderBy.parameter,state.orderBy.asc)
+            state.ordered=aux
             //Set pagination
             const {displayed,total,index}=getPagination(state.ordered,1)
             state.pagination.index=index

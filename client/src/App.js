@@ -1,5 +1,5 @@
 import './App.css';
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {Routes,Route} from 'react-router-dom'
 import Landing from './Pages/Landing/Landing';
 import Home from './Pages/Home/Home'
@@ -10,9 +10,9 @@ import Navbar from './Components/Navbar/Navbar';
 import { getDogs} from './redux/features/cards/cardsSlice';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import Form from './Pages/Form/Form';
 
 function App() {
-  const state=useSelector(state=>state.cards)
   const initialize=useRef(false)
   const dispatch=useDispatch()
   useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
     initialize.current=true
     
   }, [])
-  //console.log(state)
+
   
   
   return (
@@ -33,6 +33,7 @@ function App() {
         <Route path='/home' element={<Home/>}/>
         <Route path='/about' element={<About/>}></Route>
         <Route path='/detail/:breedid' element={<Detail></Detail>}></Route>
+        <Route path='/form' element={<Form/>}/>
         <Route path='*' element={<Error404/>}></Route>
       </Routes>
     </div>

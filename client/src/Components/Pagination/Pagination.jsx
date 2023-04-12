@@ -15,7 +15,7 @@ function getPages({index,total}) {
             last:false
         }
     }else if(total<=5){
-        for(let i;i<total;i++){
+        for(let i=1;i<=total;i++){
             pages.push(i)
         }
         return {
@@ -42,6 +42,8 @@ function Pagination() {
     const [pages, setPages] = useState({})
     useEffect(() => {
         setPages(getPages(pagination))
+        console.log(pagination)
+        console.log(getPages(pagination))
     }, [pagination])
     
   return (

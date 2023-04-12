@@ -32,6 +32,7 @@
 .middleButton:hover {
     color:#545454;
     background-color: #f6f6f6;
+    cursor: pointer;
 }
 
 .firstButton{
@@ -49,6 +50,7 @@
 .firstButton:hover {
     color:#545454;
     background-color: #f6f6f6;
+    cursor: pointer;
 }
 
 .lastButton{
@@ -66,4 +68,5 @@
 .lastButton:hover {
     color:#545454;
     background-color: #f6f6f6;
+    cursor: pointer;
 }

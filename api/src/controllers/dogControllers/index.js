@@ -56,13 +56,8 @@ dogControllers.createDog=async(req,res,next)=>{
             weight_min===undefined||weight_max===undefined||life_span_min===undefined||life_span_max===undefined){
             throw new Error('Missing Data')
         }
-        let temps=temperaments.replace('[','')
-        temps=temps.replace(']','')
-        temps=temps.split(',')
-        temps=temps.map(el=>parseInt(el))
-        const newDog=await dogsHandler.createDog(name,image,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temps)
-
-        res.json(newDog)  
+        const newDog=await dogsHandler.createDog(name,image,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temperaments)
+        res.json(newDog)
     } catch (error) {
         console.log(error)
         res.status(500).json({error:error.message})

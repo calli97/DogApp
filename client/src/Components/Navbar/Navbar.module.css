@@ -1,5 +1,5 @@
 .nav{
-    background-color: transparent;
+    background-color: #734D32;
     color:#121ee0 ;
     box-sizing: border-box;
     height: 4em;
@@ -13,9 +13,6 @@
     top: 0px;
     z-index: 1000;
     padding-right: 40px;
-    border: 2px;
-    border-color: black;
-    border-style: double;
 }
 
 .linkContainer{
@@ -30,8 +27,8 @@
 .buttonLink{
     text-decoration: none;
     transition: all .5s ease;
-    color: #121ee0;
-    border: 2px solid #121ee0;
+    color: #f2cdb3;
+    border: 2px solid #f2cdb3;
     font-family:'Montserrat', sans-serif;
     text-transform: uppercase;
     text-align: center;
@@ -44,6 +41,6 @@
     font-weight: 700;
 }
 .buttonLink:hover {
-    color:#eeeeee;
-    background-color: #121ee0;
+    color: black;
+    background-color: #f2cdb3;
 }
