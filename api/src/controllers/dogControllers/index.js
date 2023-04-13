@@ -18,9 +18,13 @@ dogControllers.getDogs=async(req,res,next)=>{
             res.json(dogs)
         }else{
             //filter by name
-            const response=await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
-            const data=await response.json()
-            const dogs=data.map(el=>apiQueryToObj(el))
+            // const response=await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
+            // const data=await response.json()
+            // const dogs=data.map(el=>apiQueryToObj(el))
+            const dogsApi=await dogsHandler.searchDogInApiByName(name)
+            const dogsDb=await dogsHandler.searchDogInDBByName(name)
+            const dogs=[...dogsApi,...dogsDb]
+            
             res.json(dogs)
         }
     } catch (error) {
@@ -57,9 +61,11 @@ dogControllers.createDog=async(req,res,next)=>{
             throw new Error('Missing Data')
         }
         const newDog=await dogsHandler.createDog(name,image,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temperaments)
-        res.json(newDog)
+        const dogsApi=await dogsHandler.getDogsFromApi()
+        const dogsDb=await dogsHandler.getDogsFromDB()
+        const dogs=[...dogsApi,...dogsDb]
+        res.json(dogs)
     } catch (error) {
-        console.log(error)
         res.status(500).json({error:error.message})
     }
 }

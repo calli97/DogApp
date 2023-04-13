@@ -1,5 +1,6 @@
 const {Dog,Temperament}=require('../../db')
 const {createWeight,createHeight,createLifeSpan,dbQueryToObj,apiQueryToObj,apiSearchToObj}=require('./utils')
+const { Op } = require("sequelize");
 
 require('dotenv').config();
 const INIT_ID=parseInt(process.env.INIT_ID)
@@ -12,6 +13,7 @@ dogsHandler.getDogsFromApi=async()=>{
     const dogs=data.map(el=>apiQueryToObj(el))
     return dogs
 }
+
 
 dogsHandler.getDogsFromDB=async()=>{
     const response=await Dog.findAll({
@@ -53,6 +55,41 @@ dogsHandler.searhDogInDB=async(id)=>{
     if(data===null)return null;
     const dog=dbQueryToObj(data)
     return dog
+}
+
+dogsHandler.searchDogInDBByName=async(name)=>{
+    const data=await Dog.findAll({
+        where:{
+            name:{[Op.iLike]: `%${name}%`},
+        },
+        include:{
+            model:Temperament,
+            attributes:['name'],
+            through:{
+                attributes:[]
+            }
+        }
+    })
+    
+    if(data.length===0)return [];
+    let parsedData=[]
+    for (let i = 0; i < data.length; i++) {
+        parsedData.push(dbQueryToObj(data[i]))
+    }
+    return parsedData
+}
+
+dogsHandler.searchDogInApiByName=async(name)=>{
+    const response=await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
+    const data=await response.json()
+    if(data.length===0){
+        return []
+    }
+    let parsedData=[]
+    for (let i = 0; i < data.length; i++) {
+        parsedData.push(apiSearchToObj(data[i]))
+    }
+    return parsedData
 }
 
 dogsHandler.createDog=async(name,image,height_min,height_max,weight_min,weight_max,life_span_min,life_span_max,temperaments)=>{
