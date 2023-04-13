@@ -1,13 +1,29 @@
 .container{
     background-color: #f2cdb3;
     margin-left: 20px;
-    width: 600px;
+    width: 250px;
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
+    border-radius: 8px;
+    height: 350px;
+    padding-bottom: 9px;
+    flex-shrink: 0;
 }
 
 .order{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.origin{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    justify-content: space-evenly;
+    align-items: center;
 }

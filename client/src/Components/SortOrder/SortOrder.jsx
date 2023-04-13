@@ -10,7 +10,7 @@ function SortOrder() {
   }
   return (
     <div className={styles.container}>
-      <select name="select" onChange={handleOption} defaultValue={orderFilter}>
+      <select name="select" onChange={handleOption} defaultValue={orderFilter} className={styles.input}>
         <option value="id" >Id</option>
         <option value="name" >Name</option>
         <option value="weight" >Weight</option>

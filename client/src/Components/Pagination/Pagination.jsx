@@ -42,8 +42,6 @@ function Pagination() {
     const [pages, setPages] = useState({})
     useEffect(() => {
         setPages(getPages(pagination))
-        console.log(pagination)
-        console.log(getPages(pagination))
     }, [pagination])
     
   return (

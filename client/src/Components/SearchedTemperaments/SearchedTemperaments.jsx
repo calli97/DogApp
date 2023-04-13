@@ -5,6 +5,7 @@ import SearchedTemperamentItem from '../SearchedTemperamentItem/SearchedTemperam
 function SearchedTemperaments({results,all,allSetter,inputSetter}) {
   return (
     <div className={styles.container}>
+        {results.length===0?'Sin Coincidencias':''}
         {results.map(el=><SearchedTemperamentItem 
         temp={el} 
         inputSetter={inputSetter}

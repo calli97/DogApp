@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk, current } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import { getPagination, matchFilters, orderCards} from './utils'
 
 export const getDogs=createAsyncThunk('cards/getCards',async()=>{
@@ -92,10 +92,10 @@ export const cardSlice=createSlice({
             state.pagination.index=index
             state.displayed=displayed 
             state.pagination.total=total
-            console.log(current(state))
         },
         filterOrigin:(state,action)=>{
             //Aplied filters
+            state.filteredBy.origin=action.payload
             let filtered=state.dogs.filter(item=>matchFilters(item,state.filteredBy.searchedTemperaments,action.payload))
             state.filtered=filtered
             //Set ordered
@@ -125,19 +125,25 @@ export const cardSlice=createSlice({
             state.displayed=displayed 
             state.pagination.total=total
         },
-        cleanFilters:(state,action)=>{
-            
-        },
         changePage:(state,action)=>{
             const {displayed,total,index}=getPagination(state.ordered,action.payload)
             state.pagination.index=index
             state.pagination.total=total
             state.displayed=displayed  
-            //state.pages=getPages(index,total)
         }
     },
     extraReducers:(builder)=>{
-        builder.addCase(getDogs.fulfilled,(state,action)=>{
+        builder
+        .addCase(getDogs.fulfilled,(state,action)=>{
+            state.dogs=action.payload
+            state.filtered=action.payload
+            state.ordered=action.payload
+            const aux=Math.ceil(action.payload.length/8)
+            state.pagination.total=aux
+            state.pagination.index=1
+            state.displayed=action.payload.slice(0,8)
+        })
+        .addCase(postDog.fulfilled,(state,action)=>{
             state.dogs=action.payload
             state.filtered=action.payload
             state.ordered=action.payload

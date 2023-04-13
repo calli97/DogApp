@@ -1,0 +1,27 @@
+.page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 4em);
+}
+
+.detail{
+    width: 800px;
+    background-color: #f2cdb3;
+    display: flex;
+    flex-direction: row;
+}
+
+.image{
+    width: 400px;
+}
+
+.dataContainer{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.temperamentsContainer{
+    margin-bottom: 10px;
+}

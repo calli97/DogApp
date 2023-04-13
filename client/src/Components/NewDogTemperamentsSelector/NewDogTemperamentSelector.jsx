@@ -5,6 +5,7 @@ import NewDogTemperamentSelect from '../NewDogTemperamentSelect/NewDogTemperamen
 function NewDogTemperamentSelector({search,form,formSetter,selected,selectedSetter,all,allSetter,inputSetter}) {
   return (
     <div className={styles.container}>
+      {search.length===0?'Sin Coincidencias':''}
       {search.map(el=><NewDogTemperamentSelect 
       key={`${el.name}-mapaid`}
       inputSetter={inputSetter}

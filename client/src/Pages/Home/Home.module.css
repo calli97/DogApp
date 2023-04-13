@@ -1,5 +1,6 @@
 .page{
     display: flex;
     flex-direction: row;
-    padding-top: 56px;
+    padding-top: 20px;
+    justify-content: space-evenly;
 }

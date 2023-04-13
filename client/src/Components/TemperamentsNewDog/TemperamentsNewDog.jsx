@@ -27,7 +27,7 @@ function TemperamentsNewDog({form,formSetter}) {
         if(input.length>0){
             let aux=[]
             for(let i=0;i<allTemperaments.length;i++){
-                if(allTemperaments[i].name.includes(input)){
+                if(allTemperaments[i].name.toLowerCase().includes(input.toLowerCase())){
                     aux.push(allTemperaments[i])
                 }
             }
@@ -39,6 +39,7 @@ function TemperamentsNewDog({form,formSetter}) {
     
     return (
         <div className={styles.container}>
+            <label htmlFor="">Temperaments: </label>
             <input type="text" value={input} onChange={handleChange} className={styles.input}/>
             {input.length>0?<NewDogTemperamentSelector 
             search={searchedTemperaments} 

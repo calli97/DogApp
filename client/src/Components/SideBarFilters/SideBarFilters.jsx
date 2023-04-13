@@ -12,10 +12,14 @@ function SideBarFilters() {
           <h4>Origin</h4>
           <OriginFilter/>
         </div>
-        <div className={styles.order}>
-          <SortOrder/>
-          <ToggleAscOrDesc/>
+        <div>
+          <h4>Order: </h4>
+          <div className={styles.order}>
+            <SortOrder/>
+            <ToggleAscOrDesc/>
+          </div>
         </div>
+        
         <div className={styles.temperaments}>
           <TemperamentsSelector/>
         </div>

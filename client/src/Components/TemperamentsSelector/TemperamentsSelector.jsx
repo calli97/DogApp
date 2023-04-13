@@ -2,8 +2,7 @@ import React from 'react'
 import styles from './TemperamentsSelector.module.css'
 import TemperamentPick from '../TemperamentPick/TemperamentPick'
 import { useState } from 'react'
-import { addTemperamentFilter } from '../../redux/features/cards/cardsSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import SearchedTemperaments from '../SearchedTemperaments/SearchedTemperaments'
 
@@ -11,17 +10,12 @@ import SearchedTemperaments from '../SearchedTemperaments/SearchedTemperaments'
 
 function TemperamentsSelector() {
   const [input, setInput] = useState('')
-  const dispatch=useDispatch()
   const temperaments=useSelector(state=>state.cards.filteredBy.searchedTemperaments)
   const [allTemperaments, setAllTemperaments] = useState([])
   const [searchedTemperaments, setSearchedTemperaments] = useState([])
 
   const changeHandler=(e)=>{
     setInput(e.target.value)
-  }
-  const clickHandler=(e)=>{
-    dispatch(addTemperamentFilter(input))
-    setInput('')
   }
   useEffect(() => {
     const search=async()=>{
@@ -35,7 +29,7 @@ function TemperamentsSelector() {
     if(input.length>0){
       let aux=[]
       for (let i = 0; i < allTemperaments.length; i++) {
-        if(allTemperaments[i].name.includes(input)){
+        if(allTemperaments[i].name.toLowerCase().includes(input.toLowerCase())){
           aux.push(allTemperaments[i])
         }
       }
@@ -55,12 +49,10 @@ function TemperamentsSelector() {
           results={searchedTemperaments} 
           inputSetter={setInput}
           all={allTemperaments} 
-          allSetter={setAllTemperaments}/>:''}
-          <button onClick={clickHandler}>Send</button>
-          
+          allSetter={setAllTemperaments}/>:''}       
         </div>
         <div className={styles.temperamentContainer}>
-          {temperaments.map(el=><TemperamentPick temperament={el} key={`${el}-temp-key`}/>)}
+          {temperaments.map(el=><TemperamentPick temperament={el} key={`${el.id}-${el.name}-temp-key`}/>)}
         </div>  
     </div>
   )
