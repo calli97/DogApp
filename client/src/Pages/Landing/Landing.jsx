@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Landing.module.css'
 import { Link } from 'react-router-dom'
 
 function Landing() {
+
+  // useEffect(() => {
+  //   fetch('http://localhost:3001/dogs',{
+      
+
+  //   })
+  //   .then(response=>response.json())
+  //   .then(data=>console.log(data))
+
+
+  // }, [])
+  
   return (
     <div className={styles.page}>
         <div className={styles.container}>

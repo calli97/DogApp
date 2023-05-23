@@ -45,7 +45,7 @@ function Form() {
     if(Object.keys(errors).every((k) => !errors[k])){
       dispatch(postDog(form))
     }else{
-      console.log('verifique campos')
+      alert('verifique los campos')
     }
     
   }
