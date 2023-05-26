@@ -35,6 +35,9 @@ const createDatabase = async () => {
     try {
         await client.connect(); // gets connection
         //await client.query("CREATE DATABASE dogs_api"); // sends queries
+        ///////Docker user
+        //await client.query("CREATE ROLE postgres WITH LOGIN PASSWORD admin;");
+        /////
         const checkIfExists = await client.query(
             "SELECT 1 FROM pg_database WHERE datname = $1",
             ["dogs_api"]
@@ -44,6 +47,8 @@ const createDatabase = async () => {
             await client.query("DROP DATABASE dogs_api");
         }
         await client.query("CREATE DATABASE dogs_api");
+        //docker
+        // await client.query("CREATE DATABASE dogs_api WITH OWNER postgres");
 
         return true;
     } catch (error) {

@@ -1,0 +1,26 @@
+version: "3"
+services:
+    api:
+        container_name: "api"
+        build: ./api/
+        ports:
+            - "3001:3001"
+        environment:
+            - DB_USER=postgres
+            - DB_PASSWORD=admin
+            - DB_HOST=localhost
+            - INIT_ID=264
+    pg:
+        image: "postgres:15"
+        container_name: "postgres"
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./pg/db_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_PASSWORD: admin
+    # client:
+    #     container_name: "client"
+    #     build: ./client/
+    #     ports:
+    #         - "3000:3000"
