@@ -1,6 +1,7 @@
 version: "2"
 services:
     api:
+        # image: nahuelcallalli/dogapp-api
         container_name: api
         build: ./api/
         command: npm start
@@ -24,8 +25,9 @@ services:
             POSTGRES_PASSWORD: admin1234
         restart: always
     client:
+        image: nahuelcallalli/dogapp-client
         container_name: client
-        build: ./client/
+        # build: ./client/
         command: npm start
         ports:
             - "80:3000"
